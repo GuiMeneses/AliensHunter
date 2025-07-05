@@ -14,4 +14,4 @@ class Entity(ABC):
         self.health = ENTITY_HEALTH[self.name]
         self.collision_damage = ENTITY_COLLISION_DAMAGE[self.name]
 
-    
+
