@@ -34,6 +34,18 @@ KP_DOWN = pygame.K_s
 KP_LEFT = pygame.K_a
 KP_SHOT = pygame.K_p
 
+# P
+PS_SUBTRACT_ENERGY = 0.15
+PS_SPEED = 3
+PS_SHOT_SPEED = 8
+
+P_KEY_UP = pygame.K_w
+P_KEY_RIGHT = pygame.K_d
+P_KEY_DOWN = pygame.K_s
+P_KEY_LEFT = pygame.K_a
+P_KEY_SHOT = pygame.K_p
+
+
 # S
 SOUND_MENU_VOLUME = 0  #0.3
 SOUND_MENU_BUTTON = 0 #0.05
