@@ -3,9 +3,11 @@ import sys
 import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
+from pygame.mixer import Sound
 
-from code.Const import WIN_WIDTH, WIN_HEIGHT, C_WHITE, C_YELLOW1, SOUND_VOLUME, C_YELLOW2, C_YELLOW3, KP_DOWN, KP_UP
-from code.Mediator import Mediator
+from code.Const import WIN_WIDTH, WIN_HEIGHT, C_WHITE, C_YELLOW1, SOUND_MENU_VOLUME, C_YELLOW2, C_YELLOW3, KP_DOWN, KP_UP, \
+    SOUND_MENU_BUTTON
+from code.BgMediator import BgMediator
 
 
 class MenuScreen:
@@ -13,22 +15,26 @@ class MenuScreen:
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
     def run(self):
+        pygame.init()
         pygame.mixer.init()
         pygame.mixer.music.load('./Assets/Sounds/menu.mp3')
-        pygame.mixer.music.set_volume(SOUND_VOLUME)
+        pygame.mixer.music.set_volume(SOUND_MENU_VOLUME)
         pygame.mixer.music.play(-1)
 
+        sound_button = pygame.mixer.Sound('./Assets/Sounds/effects/hurt.mp3')
+        sound_button.set_volume(SOUND_MENU_BUTTON)
+
+
         clock = pygame.time.Clock()
-        med = Mediator(self.screen)
+        med = BgMediator(self.screen)
 
         menu_option = 0
 
         while True:
             clock.tick(60)
-            pygame.init()
 
             self.screen.fill((0, 0, 0))
-            med.bg()
+            med.run()
 
             self.menu_text(80, 'Aliens Hunter', C_YELLOW1, (WIN_WIDTH / 2, 220))
             self.menu_text(40, 'Play', C_YELLOW2, (WIN_WIDTH / 2, 450))
@@ -51,13 +57,18 @@ class MenuScreen:
                 if event.type == pygame.KEYDOWN:
                     if event.key == KP_DOWN:
                         menu_option += 1
+                        sound_button.play()
                         if menu_option == 3:
                             menu_option = 0
 
                     elif event.key == KP_UP:
                         menu_option -= 1
+                        sound_button.play()
                         if menu_option == -1:
                             menu_option = 2
+
+                    elif event.key == pygame.K_RETURN:
+                        return menu_option
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
         text_font: Font = pygame.font.Font("./Assets/Joystixmonospace.otf", text_size)
