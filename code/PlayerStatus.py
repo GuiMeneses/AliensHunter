@@ -3,7 +3,7 @@ import pygame
 
 class PlayerStatus:
     def __init__(self):
-        self.heath = 400
+        self.health = 400
         self.energy = 400
         self.score = 0
         self.start_time = pygame.time.get_ticks()
@@ -30,4 +30,4 @@ class PlayerStatus:
         self.energy -= energy
 
     def subtract_health(self, health):
-        self.heath -= health
+        self.health -= health

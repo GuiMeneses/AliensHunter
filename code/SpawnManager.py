@@ -1,15 +1,16 @@
 import pygame
 
-from code.Const import ENT_METEOR_DAMAGE_COLLISION, ENT_METEOR_HEALTH, SPAWN_RATE
+from code.Const import ENT_METEOR_HEALTH, SPAWN_RATE, ENT_ALIEN_HEALTH
 from code.Entity import Entity
 from code.EntityProjectile import EntityProjectile
+from code.MyTimer import MyTimer
 
 
 class SpawnManager:
     def __init__(self, screen):
+        self.timer_spawn_rate = MyTimer(SPAWN_RATE)
+        self.timer_alien_shot = MyTimer(2)
         self.screen = screen
-        self.start_time = pygame.time.get_ticks()
-        self.seconds = SPAWN_RATE
         self.spawned: list[Entity] = []
 
         self.slot_spawn: list[tuple] = []
@@ -18,26 +19,31 @@ class SpawnManager:
 
     def run(self, list_entity: list[Entity]):
         self.factory_spawn(list_entity)
-        self.timer()
-
-    def timer(self):
-        elapsed_ms = pygame.time.get_ticks() - self.start_time
-        elapsed_sec = elapsed_ms / 1000
-        self.seconds = round(elapsed_sec % 60, 2)
+        self.timer_spawn_rate.run()
 
     def factory_spawn(self, list_entity: list[Entity]):
-        if self.seconds >= SPAWN_RATE:
-            self.start_time = pygame.time.get_ticks()
-            self.spawn_meteor(list_entity,self.slot_spawn[0])
-            self.spawn_meteor(list_entity,self.slot_spawn[1])
-            self.spawn_meteor(list_entity,self.slot_spawn[2])
-            self.spawn_meteor(list_entity,self.slot_spawn[3])
-            self.spawn_meteor(list_entity,self.slot_spawn[4])
-            self.spawn_meteor(list_entity,self.slot_spawn[5])
-            self.spawn_meteor(list_entity,self.slot_spawn[6])
-            self.spawn_meteor(list_entity,self.slot_spawn[7])
-            self.spawn_meteor(list_entity,self.slot_spawn[8])
+        if self.timer_spawn_rate.seconds >= SPAWN_RATE:
+            self.timer_spawn_rate.start_time = pygame.time.get_ticks()
+            self.spawn_obg('Alien_ship', 1 , list_entity, self.slot_spawn[0])
+            self.spawn_obg('meteor', 1 , list_entity, self.slot_spawn[1])
+            self.spawn_obg('meteor', 1 , list_entity, self.slot_spawn[2])
+            self.spawn_obg('meteor', 1 , list_entity, self.slot_spawn[3])
+            self.spawn_obg('meteor', 2 , list_entity, self.slot_spawn[4])
+            self.spawn_obg('meteor', 2 , list_entity, self.slot_spawn[5])
+            self.spawn_obg('meteor', 2 , list_entity, self.slot_spawn[6])
+            self.spawn_obg('meteor', 2 , list_entity, self.slot_spawn[7])
+            self.spawn_obg('meteor', 2 , list_entity, self.slot_spawn[8])
 
-    def spawn_meteor(self, list_entity: list[Entity], slot_spawn):
-        meteor = EntityProjectile(self.screen, './Assets/meteor.png', 'down', tuple(sum(x) for x in zip(slot_spawn, (36, 0))), 2, ENT_METEOR_HEALTH, ENT_METEOR_DAMAGE_COLLISION)
-        list_entity.append(meteor)
+    def spawn_obg(self, img_png: str, speed: int, list_entity: list[Entity], slot_spawn):
+        obg = EntityProjectile(self.screen, f'./Assets/{img_png}.png', 'down', (slot_spawn[0] + 36, slot_spawn[1]),
+                                   speed,
+                                   ENT_METEOR_HEALTH)
+        list_entity.append(obg)
+
+        if img_png == 'Alien_ship':
+            if self.timer_alien_shot.seconds >= SPAWN_RATE:
+                self.timer_alien_shot.start_time = pygame.time.get_ticks()
+
+
+
+

@@ -3,7 +3,7 @@ from code.Entity import Entity
 
 
 class EntityProjectile(Entity):
-    def __init__(self, screen, img_png: str, direction: str, position: tuple, speed: int, health: int, damage_collision: int ):
+    def __init__(self, screen, img_png: str, direction: str, position: tuple, speed: int, health: int, damage_collision: int = None):
         super().__init__(screen, img_png, position)
         self.direction = direction
         self.speed = speed
