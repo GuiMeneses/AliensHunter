@@ -1,0 +1,8 @@
+Teclas:
+Game: W, A, S, D, P
+Menu: W, S, Enter
+Score: ESC
+
+Instruções:
+No jogo, seu objetivo é ficar vivo. Se a sua vida ou energia chegarem a zero, você perde.
+Evite tomar dano e, sempre que aparecer energia na tela, colete para se manter vivo!

@@ -68,7 +68,6 @@ class MenuScreen:
                     elif event.key == pygame.K_RETURN:
                         sound_button.play()
                         pygame.time.delay(300)
-                        print(menu_option)
                         return menu_option
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
