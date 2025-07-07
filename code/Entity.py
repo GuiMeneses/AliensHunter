@@ -1,7 +1,5 @@
 import pygame
 
-from code.Const import WIN_WIDTH, WIN_HEIGHT
-
 
 class Entity:
     def __init__(self, screen, img_png: str, position: tuple):

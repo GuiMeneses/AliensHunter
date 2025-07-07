@@ -16,22 +16,16 @@ class EntityProjectile(Entity):
         self.speed = speed
         self.health = health
         self.damage_collision = damage_collision
-        self.shot: list[AlienShot] = []
         self.timer_alien_shot = MyTimer(ALIEN_FIRE_RATE)
 
-    def run(self):
+    def run(self, list_alien_shot: list):
         if self.img_png == './Assets/Alien_ship.png':
             self.timer_alien_shot.run()
-            if len(self.shot) > 0:
-                for shot in self.shot:
-                    shot.run()
-                    self.verify_alien_shot_in_window(shot, self.shot)
-                    print(len(self.shot))
 
             if self.timer_alien_shot.seconds >= ALIEN_FIRE_RATE:
                 self.timer_alien_shot.start_time = pygame.time.get_ticks()
                 shot = AlienShot(self.screen, './Assets/Alien_shot.png', (self.position[0] + 17, self.position[1]))
-                self.shot.append(shot)
+                list_alien_shot.append(shot)
         self.draw_entity()
         self.move(self.direction)
 
@@ -42,6 +36,4 @@ class EntityProjectile(Entity):
             self.vector_y += self.speed
         self.position = (self.vector_x, self.vector_y)
 
-    def verify_alien_shot_in_window(self, alien_shot: AlienShot, list_alien_shot: list[AlienShot]):
-        if alien_shot.rect.top > WIN_HEIGHT:
-            list_alien_shot.remove(alien_shot)
+

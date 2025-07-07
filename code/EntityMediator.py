@@ -2,7 +2,8 @@ import pygame
 
 from code.AlienShot import AlienShot
 from code.Animation import Animation
-from code.Const import WIN_HEIGHT, PS_METEOR_SCORE, SOUND_DELAY_HURT, PS_DAMAGE_COLLISION, PS_ALIEN_SCORE
+from code.Const import WIN_HEIGHT, PS_METEOR_SCORE, SOUND_DELAY_HURT, PS_DAMAGE_COLLISION, PS_ALIEN_SCORE, \
+    ALIEN_SHOT_DAMAGE
 from code.EntityPlayer import EntityPlayer
 from code.EntityProjectile import EntityProjectile
 from code.MyTimer import MyTimer
@@ -17,12 +18,14 @@ class EntityMediator:
         self.ps = ps
         self.timer_hurt = MyTimer(SOUND_DELAY_HURT)
 
-    def run(self, list_pj: list[list[EntityProjectile]], list_animation: list[Animation]):
+    def run(self, list_pj: list[list[EntityProjectile]], list_animation: list[Animation], list_alien_shot: list[AlienShot]):
         self.verify_entity_in_screen(list_pj[0], -33)
         self.verify_entity_in_screen(list_pj[1], WIN_HEIGHT)
         self.verify_collision_player_shot_to_entity(list_pj[0], list_pj[1], list_animation)
         self.verify_collision_player_to_entity(self.entity_player, list_pj[1])
         self.timer_hurt.run()
+        self.verify_alien_shot_in_window(list_alien_shot)
+        self.verify_player_to_alien_shot(self.entity_player, list_alien_shot)
 
     def verify_entity_in_screen(self, list_entity: list[EntityProjectile], limit: int):
         for pj in list_entity:
@@ -78,6 +81,20 @@ class EntityMediator:
                     self.sound_hurt.play()
                 if self.ps.health <= 0:
                     print('game over')
+
+    def verify_alien_shot_in_window(self, list_alien_shot: list[AlienShot]):
+        for shot in list_alien_shot:
+            if shot.rect.top > WIN_HEIGHT:
+                list_alien_shot.remove(shot)
+
+    def verify_player_to_alien_shot(self, player: EntityPlayer,
+                                          list_alien_shot: list[AlienShot]):
+        for shot in list_alien_shot:
+            if player.rect.colliderect(shot.rect):
+                self.sound_hurt.play()
+                self.ps.subtract_health(ALIEN_SHOT_DAMAGE)
+                list_alien_shot.remove(shot)
+
 
 
 

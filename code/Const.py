@@ -3,6 +3,7 @@ import pygame
 # A
 ALIEN_SPEED_SHOT = (5, 15)
 ALIEN_FIRE_RATE =  1
+ALIEN_SHOT_DAMAGE = 10
 
 
 # C

@@ -7,6 +7,7 @@ from pygame.font import Font
 from code.BgMediator import BgMediator
 from code.Const import WIN_WIDTH, WIN_HEIGHT, SOUND_GAME_VOLUME, C_YELLOW1, C_GREY, C_BLUE, C_RED, \
     PS_SUBTRACT_ENERGY, SOUND_SHOT_VOLUME, SOUND_EXPLOSION, SOUND_HURT_VOLUME
+from code.EntityAnim import EntityAnim
 from code.EntityMediator import EntityMediator
 from code.EntityPlayer import EntityPlayer
 from code.PlayerStatus import PlayerStatus
@@ -18,6 +19,16 @@ class GameScreen:
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
     def run(self):
+
+        energy = EntityAnim(
+            self.screen,
+            './Assets/Energy_',
+            9,  # total de frames
+            (120, 120),  # tamanho de cada frame
+            (100, 0),  # posição inicial
+            2  # velocidade
+        )
+
         ps = PlayerStatus()
         player = EntityPlayer(self.screen, './Assets/Player_ship.png', (WIN_WIDTH / 2 - 24, WIN_HEIGHT / 2))
 
@@ -39,21 +50,26 @@ class GameScreen:
         entity_med = EntityMediator(self.screen, sound_explosion, sound_hurt, player, ps)
         spawn_manager = SpawnManager(self.screen)
 
-
-
-
         list_player_shoot = []
         list_entity = []
         list_animation = []
+        list_alien_shot = []
 
         while True:
             clock.tick(60)
             self.screen.fill((0, 0, 0))
             bg_med.run()
-            entity_med.run([list_player_shoot, list_entity], list_animation)
+            entity_med.run([list_player_shoot, list_entity], list_animation, list_alien_shot)
             spawn_manager.run(list_entity)
 
             ps.timer()
+
+            energy.run()
+
+            for i in range(len(list_alien_shot)):
+                if len(list_alien_shot) != 0:
+                    list_alien_shot[i].run()
+                    print(len(list_alien_shot))
 
             for i in range(len(list_player_shoot)):
                 if len(list_player_shoot) != 0:
@@ -61,7 +77,7 @@ class GameScreen:
 
             for i in range(len(list_entity)):
                 if len(list_entity) != 0:
-                    list_entity[i].run()
+                    list_entity[i].run(list_alien_shot)
 
             for i in range(len(list_animation)):
                 if len(list_animation) != 0:
