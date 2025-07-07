@@ -3,11 +3,10 @@ import sys
 import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
-from pygame.mixer import Sound
 
-from code.Const import WIN_WIDTH, WIN_HEIGHT, C_WHITE, C_YELLOW1, SOUND_MENU_VOLUME, C_YELLOW2, C_YELLOW3, KP_DOWN, KP_UP, \
-    SOUND_MENU_BUTTON
 from code.BgMediator import BgMediator
+from code.Const import WIN_WIDTH, WIN_HEIGHT, C_YELLOW1, SOUND_MENU_VOLUME, C_YELLOW2, C_YELLOW3, KP_DOWN, KP_UP, \
+    SOUND_MENU_BUTTON
 
 
 class MenuScreen:
@@ -69,6 +68,7 @@ class MenuScreen:
                     elif event.key == pygame.K_RETURN:
                         sound_button.play()
                         pygame.time.delay(300)
+                        print(menu_option)
                         return menu_option
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):

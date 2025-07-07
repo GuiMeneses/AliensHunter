@@ -50,6 +50,10 @@ class GameScreen:
         list_energy = []
 
         while True:
+            if ps.health <= 0 or ps.energy <= 0:
+                return ps.score, ps.time
+
+
             clock.tick(60)
             self.screen.fill((0, 0, 0))
             bg_med.run()
