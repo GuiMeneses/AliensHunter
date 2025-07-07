@@ -41,7 +41,7 @@ class GameScreen:
         clock = pygame.time.Clock()
         bg_med = BgMediator(self.screen)
         entity_med = EntityMediator(self.screen, sound_explosion, sound_hurt, sound_energy, player, ps)
-        spawn_manager = SpawnManager(self.screen)
+        spawn_manager = SpawnManager(self.screen, ps)
 
         list_player_shoot = []
         list_entity = []

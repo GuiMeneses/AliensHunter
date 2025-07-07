@@ -20,7 +20,6 @@ class EntityAnim:
         self.frame_delay = 100
         self.last_update = pygame.time.get_ticks()
 
-        # Cria rect menor e centralizado
         rect_w = self.width // 2
         rect_h = self.height // 2
         rect_x = self.position[0] + (self.width - rect_w) // 2
@@ -30,7 +29,6 @@ class EntityAnim:
     def update(self):
         self.position[1] += self.speed
 
-        # Atualiza rect para nova posição, mantendo centralizado
         rect_w = self.width // 2
         rect_h = self.height // 2
         rect_x = self.position[0] + (self.width - rect_w) // 2
@@ -44,7 +42,6 @@ class EntityAnim:
 
     def draw(self):
         self.screen.blit(self.frames[self.current_frame], self.position)
-        # pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 1)  # opcional: desenha o rect
 
     def run(self):
         self.update()

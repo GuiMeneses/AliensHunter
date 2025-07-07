@@ -3,7 +3,7 @@ import pygame
 from code.AlienShot import AlienShot
 from code.Animation import Animation
 from code.Const import WIN_HEIGHT, PS_METEOR_SCORE, SOUND_DELAY_HURT, PS_DAMAGE_COLLISION, PS_ALIEN_SCORE, \
-    ALIEN_SHOT_DAMAGE
+    ALIEN_SHOT_DAMAGE, ENERGY_POINT
 from code.EntityAnim import EntityAnim
 from code.EntityPlayer import EntityPlayer
 from code.EntityProjectile import EntityProjectile
@@ -120,7 +120,7 @@ class EntityMediator:
         for ent in list_energy:
             if player.rect.colliderect(ent.rect):
                 self.sound_energy.play()
-                self.ps.add_energy(10)
+                self.ps.add_energy(ENERGY_POINT)
                 to_remove.append(ent)
         for ent in to_remove:
             if ent in list_energy:

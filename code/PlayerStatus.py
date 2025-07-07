@@ -1,7 +1,5 @@
 import pygame
 
-from code.GameOverScreen import GameOverScreen
-
 
 class PlayerStatus:
     def __init__(self):
@@ -30,13 +28,7 @@ class PlayerStatus:
 
     def subtract_energy(self, energy):
         self.energy -= energy
-        # self.veryfy_if_game_over()
 
 
     def subtract_health(self, health):
         self.health -= health
-        # self.veryfy_if_game_over()
-
-    # def veryfy_if_game_over(self):
-    #     if self.health <= 0 or self.energy <= 0:
-    #         return
