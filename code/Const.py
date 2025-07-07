@@ -1,6 +1,9 @@
-# C
 import pygame
 
+
+
+
+# C
 C_WHITE = (255, 255, 255)
 C_YELLOW1 = (254, 167,17)
 C_YELLOW2 = (255, 213,0)
@@ -11,21 +14,18 @@ C_RED = (214, 64, 64)
 
 
 
-# E
-ENTITY_HEALTH = {
-    'Player': 100
-}
-
-ENTITY_COLLISION_DAMAGE = {
-    'Player_ship': 5
-}
-
-ENTITY_SPEED = {
+# B
+BG_SPEED = {
     'Background_1': 2,# 2
     'Background_2': 3,# 3
     'Background_3': 4,# 4
     'Background_4': 1,# 1
 }
+
+# E
+ENT_METEOR_HEALTH = 100
+ENT_METEOR_DAMAGE_COLLISION = 10
+ENT_METEOR_SCORE = 50
 
 # K
 KP_UP = pygame.K_w
@@ -38,6 +38,10 @@ KP_SHOT = pygame.K_p
 PS_SUBTRACT_ENERGY = 0.15
 PS_SPEED = 3
 PS_SHOT_SPEED = 8
+PS_SHOT_DELAY = 0.2
+PS_SHOT_PRICE = 3
+PS_SHOT_DAMAGE_COLLISION = 10
+
 
 P_KEY_UP = pygame.K_w
 P_KEY_RIGHT = pygame.K_d
@@ -50,6 +54,15 @@ P_KEY_SHOT = pygame.K_p
 SOUND_MENU_VOLUME = 0  #0.3
 SOUND_MENU_BUTTON = 0 #0.05
 SOUND_GAME_VOLUME = 0 #0.07
+SOUND_SHOT_VOLUME = 0 # 0.1
+
+# SOUND_MENU_VOLUME = 0.3  #0.3
+# SOUND_MENU_BUTTON = 0.03 #0.05
+# SOUND_GAME_VOLUME = 0.07 #0.07
+# SOUND_SHOT_VOLUME = 0.1 # 0.1
+
+SPAWN_RATE = 10
+
 
 # W
 WIN_WIDTH = 1080

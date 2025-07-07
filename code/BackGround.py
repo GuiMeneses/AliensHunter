@@ -1,6 +1,6 @@
 import pygame
 
-from code.Const import WIN_WIDTH, WIN_HEIGHT, ENTITY_SPEED
+from code.Const import WIN_WIDTH, WIN_HEIGHT, BG_SPEED
 
 
 class BackGround:
@@ -14,6 +14,6 @@ class BackGround:
         self.screen.blit(self.surf, self.rect)
 
     def move(self, other_img):
-        self.rect.centery += ENTITY_SPEED[self.name]
+        self.rect.centery += BG_SPEED[self.name]
         if self.rect.top >= WIN_HEIGHT:
             self.rect.bottom = other_img.rect.top

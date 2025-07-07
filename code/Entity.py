@@ -7,7 +7,8 @@ class Entity:
     def __init__(self, screen, img_png: str, position: tuple):
         self.screen = screen
         self.position = position
-        self.surf = pygame.image.load(img_png).convert_alpha()
+        self.img_png = img_png
+        self.surf = pygame.image.load(self.img_png).convert_alpha()
         self.rect = self.surf.get_rect(topleft=self.position)
         self.vector_x = self.position[0]
         self.vector_y = self.position[1]

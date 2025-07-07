@@ -4,12 +4,14 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 
+from code.Animation import Animation
 from code.BgMediator import BgMediator
 from code.Const import WIN_WIDTH, WIN_HEIGHT, SOUND_GAME_VOLUME, C_YELLOW1, C_GREY, C_BLUE, C_RED, \
-    PS_SUBTRACT_ENERGY
+    PS_SUBTRACT_ENERGY, SOUND_SHOT_VOLUME
+from code.EntityMediator import EntityMediator
 from code.EntityPlayer import EntityPlayer
-from code.EntityProjectile import EntityProjectile
 from code.PlayerStatus import PlayerStatus
+from code.SpawnManager import SpawnManager
 
 
 class GameScreen:
@@ -18,32 +20,52 @@ class GameScreen:
 
     def run(self):
 
+        # Animacao
+        frames = [f'./Assets/Explosion_{i}.png' for i in range(1, 10)]
+
+        # Instancia
+        anim = Animation(frames, frame_delay=100, pos=(0, 0), size=(64, 64))
+
         pygame.init()
         pygame.mixer.init()
         pygame.mixer.music.load('./Assets/Sounds/sound1.mp3')
         pygame.mixer.music.set_volume(SOUND_GAME_VOLUME)
         pygame.mixer.music.play(-1)
 
+        sound_shot = pygame.mixer.Sound('./Assets/Sounds/effects/laser.mp3')
+        sound_shot.set_volume(SOUND_SHOT_VOLUME)
+
         clock = pygame.time.Clock()
-        med = BgMediator(self.screen)
+        bg_med = BgMediator(self.screen)
+        entity_med = EntityMediator()
+        spawn_manager = SpawnManager(self.screen)
 
         ps = PlayerStatus()
 
-        player = EntityPlayer(self.screen, './Assets/Player_ship.png', (WIN_WIDTH / 2, WIN_HEIGHT / 2))
-        list_pj = []
+        player = EntityPlayer(self.screen, './Assets/Player_ship.png', (WIN_WIDTH / 2 - 24, WIN_HEIGHT / 2))
+        list_player_shoot = []
+        list_entity = []
 
         while True:
             clock.tick(60)
             self.screen.fill((0, 0, 0))
-            med.run()
+            bg_med.run()
+            entity_med.run([list_player_shoot, list_entity], ps)
+            spawn_manager.run(list_entity)
 
             ps.timer()
 
-            for i in range(len(list_pj)):
-                if len(list_pj) != 0:
-                    list_pj[i].run()
+            for i in range(len(list_player_shoot)):
+                if len(list_player_shoot) != 0:
+                    list_player_shoot[i].run()
 
-            player.run(list_pj)
+            for i in range(len(list_entity)):
+                if len(list_entity) != 0:
+                    list_entity[i].run()
+
+            anim.run(self.screen)
+
+            player.run(list_player_shoot, ps, sound_shot)
 
             self.drawn_icon('./Assets/storm.png', (8, 5))
             self.drawn_icon('./Assets/heart.png', (5, 25))

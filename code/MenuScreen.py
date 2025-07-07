@@ -24,7 +24,6 @@ class MenuScreen:
         sound_button = pygame.mixer.Sound('./Assets/Sounds/effects/hurt.mp3')
         sound_button.set_volume(SOUND_MENU_BUTTON)
 
-
         clock = pygame.time.Clock()
         med = BgMediator(self.screen)
 
@@ -68,6 +67,8 @@ class MenuScreen:
                             menu_option = 2
 
                     elif event.key == pygame.K_RETURN:
+                        sound_button.play()
+                        pygame.time.delay(300)
                         return menu_option
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
