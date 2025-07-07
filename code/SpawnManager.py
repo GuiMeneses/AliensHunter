@@ -1,6 +1,6 @@
 import pygame
 
-from code.Const import ENT_METEOR_HEALTH, SPAWN_RATE, ENT_ALIEN_HEALTH
+from code.Const import ENT_METEOR_HEALTH, SPAWN_RATE
 from code.Entity import Entity
 from code.EntityProjectile import EntityProjectile
 from code.MyTimer import MyTimer
@@ -9,7 +9,6 @@ from code.MyTimer import MyTimer
 class SpawnManager:
     def __init__(self, screen):
         self.timer_spawn_rate = MyTimer(SPAWN_RATE)
-        self.timer_alien_shot = MyTimer(2)
         self.screen = screen
         self.spawned: list[Entity] = []
 
@@ -40,9 +39,9 @@ class SpawnManager:
                                    ENT_METEOR_HEALTH)
         list_entity.append(obg)
 
-        if img_png == 'Alien_ship':
-            if self.timer_alien_shot.seconds >= SPAWN_RATE:
-                self.timer_alien_shot.start_time = pygame.time.get_ticks()
+
+
+
 
 
 

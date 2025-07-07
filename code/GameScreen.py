@@ -4,7 +4,6 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Animation import Animation
 from code.BgMediator import BgMediator
 from code.Const import WIN_WIDTH, WIN_HEIGHT, SOUND_GAME_VOLUME, C_YELLOW1, C_GREY, C_BLUE, C_RED, \
     PS_SUBTRACT_ENERGY, SOUND_SHOT_VOLUME, SOUND_EXPLOSION, SOUND_HURT_VOLUME
@@ -51,7 +50,7 @@ class GameScreen:
             clock.tick(60)
             self.screen.fill((0, 0, 0))
             bg_med.run()
-            entity_med.run([list_player_shoot, list_entity], ps, list_animation)
+            entity_med.run([list_player_shoot, list_entity], list_animation)
             spawn_manager.run(list_entity)
 
             ps.timer()

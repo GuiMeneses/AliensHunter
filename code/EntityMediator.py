@@ -1,11 +1,11 @@
 import pygame
 
+from code.AlienShot import AlienShot
 from code.Animation import Animation
 from code.Const import WIN_HEIGHT, PS_METEOR_SCORE, SOUND_DELAY_HURT, PS_DAMAGE_COLLISION, PS_ALIEN_SCORE
 from code.EntityPlayer import EntityPlayer
 from code.EntityProjectile import EntityProjectile
 from code.MyTimer import MyTimer
-from code.PlayerStatus import PlayerStatus
 
 
 class EntityMediator:
@@ -17,7 +17,7 @@ class EntityMediator:
         self.ps = ps
         self.timer_hurt = MyTimer(SOUND_DELAY_HURT)
 
-    def run(self, list_pj: list[list[EntityProjectile]], ps: PlayerStatus, list_animation: list[Animation]):
+    def run(self, list_pj: list[list[EntityProjectile]], list_animation: list[Animation]):
         self.verify_entity_in_screen(list_pj[0], -33)
         self.verify_entity_in_screen(list_pj[1], WIN_HEIGHT)
         self.verify_collision_player_shot_to_entity(list_pj[0], list_pj[1], list_animation)
@@ -65,6 +65,7 @@ class EntityMediator:
     def verify_helth_ent(self, entity: EntityProjectile):
         if entity.health <= 0:
             return True
+        return None
 
     def verify_collision_player_to_entity(self,
                                           player: EntityPlayer,
@@ -77,5 +78,8 @@ class EntityMediator:
                     self.sound_hurt.play()
                 if self.ps.health <= 0:
                     print('game over')
+
+
+
 
 

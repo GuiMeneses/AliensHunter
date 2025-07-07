@@ -1,5 +1,3 @@
-import sys
-
 import pygame
 
 from code.Const import WIN_WIDTH, WIN_HEIGHT, PS_SPEED, P_KEY_UP, P_KEY_RIGHT, P_KEY_DOWN, P_KEY_LEFT, P_KEY_SHOT, \
