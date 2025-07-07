@@ -6,7 +6,7 @@ from pygame.font import Font
 
 from code.BgMediator import BgMediator
 from code.Const import WIN_WIDTH, WIN_HEIGHT, SOUND_GAME_VOLUME, C_YELLOW1, C_GREY, C_BLUE, C_RED, \
-    PS_SUBTRACT_ENERGY, SOUND_SHOT_VOLUME, SOUND_EXPLOSION, SOUND_HURT_VOLUME
+    PS_SUBTRACT_ENERGY, SOUND_SHOT_VOLUME, SOUND_EXPLOSION, SOUND_HURT_VOLUME, SOUND_ENERGY_VOLUME
 from code.EntityAnim import EntityAnim
 from code.EntityMediator import EntityMediator
 from code.EntityPlayer import EntityPlayer
@@ -19,15 +19,6 @@ class GameScreen:
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
     def run(self):
-
-        energy = EntityAnim(
-            self.screen,
-            './Assets/Energy_',
-            9,  # total de frames
-            (120, 120),  # tamanho de cada frame
-            (100, 0),  # posição inicial
-            2  # velocidade
-        )
 
         ps = PlayerStatus()
         player = EntityPlayer(self.screen, './Assets/Player_ship.png', (WIN_WIDTH / 2 - 24, WIN_HEIGHT / 2))
@@ -44,40 +35,45 @@ class GameScreen:
         sound_explosion.set_volume(SOUND_EXPLOSION)
         sound_hurt = pygame.mixer.Sound('./Assets/Sounds/effects/hurt.mp3')
         sound_hurt.set_volume(SOUND_HURT_VOLUME)
+        sound_energy = pygame.mixer.Sound('./Assets/Sounds/effects/energy.mp3')
+        sound_energy.set_volume(SOUND_ENERGY_VOLUME)
 
         clock = pygame.time.Clock()
         bg_med = BgMediator(self.screen)
-        entity_med = EntityMediator(self.screen, sound_explosion, sound_hurt, player, ps)
+        entity_med = EntityMediator(self.screen, sound_explosion, sound_hurt, sound_energy, player, ps)
         spawn_manager = SpawnManager(self.screen)
 
         list_player_shoot = []
         list_entity = []
         list_animation = []
         list_alien_shot = []
+        list_energy = []
 
         while True:
             clock.tick(60)
             self.screen.fill((0, 0, 0))
             bg_med.run()
-            entity_med.run([list_player_shoot, list_entity], list_animation, list_alien_shot)
-            spawn_manager.run(list_entity)
+            entity_med.run([list_player_shoot, list_entity], list_animation, list_alien_shot, list_energy)
+            spawn_manager.run(list_entity,list_energy)
 
             ps.timer()
 
-            energy.run()
+            for i in range(len(list_energy)):
+                if len(list_energy) != 0:
+                    list_energy[i].run()
 
             for i in range(len(list_alien_shot)):
                 if len(list_alien_shot) != 0:
                     list_alien_shot[i].run()
-                    print(len(list_alien_shot))
 
             for i in range(len(list_player_shoot)):
                 if len(list_player_shoot) != 0:
-                    list_player_shoot[i].run()
+                    list_player_shoot[i].run(list_player_shoot)
 
             for i in range(len(list_entity)):
                 if len(list_entity) != 0:
                     list_entity[i].run(list_alien_shot)
+
 
             for i in range(len(list_animation)):
                 if len(list_animation) != 0:
